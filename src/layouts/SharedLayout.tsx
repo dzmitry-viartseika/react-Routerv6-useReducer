@@ -53,37 +53,29 @@ import axios from 'axios';
 //     usersList: []
 // }
 
-// const reducer: Reducer<any, any> = (state = [], action) => {
-//     // const { type, payload } = action;
-//     switch (action.type) {
-//         case UsersActions.ADD_USER: {
-//             let usersList = state.usersList;
-//             usersList.push(action.payload)
-//             return {
-//                 ...state.usersList,
-//                 usersList,
-//             }
-//         }
-//         case UsersActions.SET_USERS: {
-//             console.log('reducer', state);
-//             console.log('action.payload', action.payload);
-//             return {
-//                 usersList: [...state.usersList, action.payload]
-//             }
-//         }
-//         default:
-//             return state;
-//     }
-// }
+const reducer: Reducer<any, any> = (state = [], action) => {
+    // const { type, payload } = action;
+    switch (action.type) {
+        // case UsersActions.ADD_USER: {
+        case 'increment': {
+            console.log('action.payload', action.payload);
+            return {usersList: [...state.usersList, action.payload]}
+        }
+        case 'decrement': {
+            console.log('action.payload', action.payload);
+            return {usersList: [...state.usersList, action.payload]}
+        }
+        default:
+            return state;
+    }
+}
 //
 // const initialState = {
 //     usersList: [],
 // }
 
 function SharedLayout(): JSX.Element {
-
-    const [users, setUsers] = useState<any[]>([]);
-    // const [state, dispatch] = useReducer(reducer, {usersList: []});
+    const [state, dispatch] = useReducer(reducer, {usersList: []});
     const [userName, setUserName] = useState<string>('');
 
     const changeValue = (event: any): void => {
@@ -92,6 +84,10 @@ function SharedLayout(): JSX.Element {
 
     const addNewUser = () => {
         console.log('addNewUser');
+        dispatch({
+            type: 'increment',
+            payload: userName
+        })
     }
 
 
@@ -114,9 +110,12 @@ function SharedLayout(): JSX.Element {
         <>
             <TheHeader />
             <input type="text" value={userName} onChange={changeValue}/>
-            <button onClick={addNewUser}>Add new</button>
+            <button onClick={addNewUser}>-</button>
+            <br/>
+            <button onClick={() => dispatch({type: 'increment'})}>+</button>
+            Count: {state.count}
             {
-                users.map((item: any) => (
+                state.usersList.map((item: any) => (
                     <div key={item}>
                         {item}
                     </div>
