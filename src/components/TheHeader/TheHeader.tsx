@@ -1,11 +1,13 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function TheHeader(): JSX.Element {
     return (
         <nav className='navbar'>
-            <Link to='/'>Home</Link>
-            <Link to='/users'>Users</Link>
-            <Link to='/posts'>Posts</Link>
+            <NavLink to='/'
+                className={({isActive}) => (isActive ? 'active': '')}
+            >Home</NavLink>
+            <NavLink to='/users'>Users</NavLink>
+            <NavLink to='/posts'>Posts</NavLink>
         </nav>
     )
 }
