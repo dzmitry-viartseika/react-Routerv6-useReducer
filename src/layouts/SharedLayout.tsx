@@ -47,10 +47,10 @@ interface IUser {
     address: IAddress;
 }
 
-type UserState = {
+interface UserState {
     usersList: IUser[] | [];
-    post: object,
-    conditional: boolean,
+    post: IUserPost;
+    conditional: boolean;
 }
 
 type UserAction = {
@@ -58,7 +58,10 @@ type UserAction = {
     payload: any;
 }
 
-const reducer = (state: UserState, action: UserAction) => {
+type ReducerType<UserState, UserAction> =
+    (state: UserState, action: UserAction) => UserState;
+
+const reducer = (state: UserState, action: UserAction): UserState=> {
     const { type, payload } = action;
     switch (type) {
         case UsersActions.ADD_NEW_USER: {
@@ -105,9 +108,15 @@ const reducer = (state: UserState, action: UserAction) => {
     }
 }
 
+
 const initialState: UserState = {
     usersList: [],
-    post: {},
+    post: {
+        body: '',
+        id: 0,
+        title: '',
+        userId: 0,
+    },
     conditional: false,
 }
 
